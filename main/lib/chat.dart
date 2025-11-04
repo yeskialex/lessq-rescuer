@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'mission_failed.dart';
+import 'mission_success.dart';
 
 class Message {
   final String text;
@@ -172,6 +173,88 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
+  void _showMissionSuccessDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: const Color(0xFF464646),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Success emoji/icon
+                const Text(
+                  '🎉',
+                  style: TextStyle(fontSize: 60),
+                ),
+                const SizedBox(height: 20),
+                // Title
+                const Text(
+                  'Mission Success!',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                // Description
+                const Text(
+                  'Congratulations! You successfully saved the hiker within the Golden Hour.',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w400,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 24),
+                // Button
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Close dialog
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (context) => const MissionSuccessPage(),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFDCFF00),
+                      foregroundColor: Colors.black,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: const Text(
+                      'Continue',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   String _formatTime(int seconds) {
     final minutes = seconds ~/ 60;
     final remainingSeconds = seconds % 60;
@@ -251,6 +334,7 @@ class _ChatPageState extends State<ChatPage> {
           ));
           _gameCompleted = true;
           _gameActive = false;
+          _showMissionSuccessDialog();
         } else {
           _messages.add(Message(
             text: _sectionPrompts[_currentPosition],

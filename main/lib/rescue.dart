@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'chat.dart';
 import 'contacts.dart';
+import 'tracking.dart';
 
 class RescuePage extends StatefulWidget {
   const RescuePage({super.key});
@@ -139,7 +140,12 @@ class _RescuePageState extends State<RescuePage> {
                 margin: const EdgeInsets.only(bottom: 20),
                 child: ElevatedButton(
                   onPressed: () {
-                    // Track button action
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const TrackingPage(),
+                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: isCardSelected ? const Color(0xFFDCFF00) : const Color(0xFF8A8A8A),
